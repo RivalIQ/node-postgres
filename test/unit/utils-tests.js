@@ -45,3 +45,14 @@ test('normalizing query configs', function() {
 	config = utils.normalizeQueryConfig({text: 'TEXT', values: [10]}, callback)
 	assert.deepEqual(config, {text: 'TEXT', values: [10], callback: callback})
 })
+
+test('prepareValues: date prepared properly as UTC', function() {
+    defaults.parseInputDatesAsUTC = true;
+
+    // make a date in the local timezone that represents a specific UTC point in time
+    var date = new Date(Date.UTC(2014, 1, 1, 11, 11, 1, 7));
+    var out = utils.prepareValue(date);
+    assert.strictEqual(out, "2014-02-01T11:11:01.007+00:00");
+
+    defaults.parseInputDatesAsUTC = false;
+});
